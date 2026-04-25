@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  
+  data:
+    redis:
+      host: localhost
+      port: 6370  # Different port for test Redis
+  
+  mail:
+    host: localhost
+    port: 3025
+    username: test
+    password: test
+
+app:
+  jwt:
+    secret: testSecretKey1234567890123456789012345678901234567890
+    expiration: 3600
+  
+  otp:
+    length: 6
+    expiration: 300
+    max-attempts: 5
+    rate-limit-window: 3600
+    max-requests-per-hour: 10
+  
+  sms:
+    enabled: false
+
+logging:
+  level:
+    com.auth: DEBUG

@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  
+  mail:
+    host: localhost
+    port: 1025
+    username: 
+    password: 
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+logging:
+  level:
+    com.auth: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.mail: DEBUG
+
+app:
+  sms:
+    enabled: false

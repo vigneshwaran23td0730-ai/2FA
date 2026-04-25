@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  app:
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    volumes:
+      - ./target:/app/target
+    command: ["java", "-jar", "-Dspring.profiles.active=dev", "app.jar"]

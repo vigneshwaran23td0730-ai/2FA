@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    com.auth: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+  file:
+    name: /var/log/secure-2fa-auth.log
+
+app:
+  sms:
+    enabled: true
