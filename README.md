@@ -16,8 +16,10 @@ A comprehensive, production-ready Spring Boot 3.x application providing secure t
 - **Multiple Delivery Methods**: Email, SMS, or both
 - **QR Code Generation**: Easy authenticator app setup
 
+
+
 ### Security Features
-- **Rate Limiting**: Prevents brute force attacks
+- **Rate Limiting**: Prevents brute force attacks-8
 - **Attempt Tracking**: Monitors and logs authentication attempts
 - **Redis-backed Storage**: Secure OTP storage with TTL
 - **IP-based Restrictions**: Additional security layer

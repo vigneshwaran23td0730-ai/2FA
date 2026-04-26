@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", indexes = {
+@Table(name = "app_users", indexes = {
     @Index(name = "idx_email", columnList = "email"),
     @Index(name = "idx_phone", columnList = "phone")
 })
@@ -51,7 +51,7 @@ public class User {
     
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "app_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Builder.Default
     private Set<Role> roles = Set.of(Role.USER);

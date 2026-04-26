@@ -55,3 +55,9 @@ Thumbs.db
 
 ### Docker ###
 .dockerignore
+
+### Local Environment ###
+portable-java/
+jdk.zip
+out*.txt
+2FA/

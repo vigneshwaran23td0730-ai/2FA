@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure 2FA System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container" id="app">
+        <!-- Loading Overlay -->
+        <div id="loading" class="loading-overlay hidden">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Auth Forms Container (Login/Register) -->
+        <div id="auth-view" class="view glass-panel">
+            <div class="auth-header">
+                <h1 id="auth-title">Welcome Back</h1>
+                <p id="auth-subtitle">Log in to access your secure dashboard</p>
+            </div>
+
+            <!-- Toast Notification -->
+            <div id="toast" class="toast hidden"></div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" required autocomplete="new-password">
+                        <button type="button" class="password-toggle" tabindex="-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Log In</button>
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" id="switch-to-register">Sign up</a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form hidden" autocomplete="off">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="register-password" required minlength="8" autocomplete="new-password">
+                        <button type="button" class="password-toggle" tabindex="-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                    <ul class="password-requirements">
+                        <li id="req-length" class="invalid">At least 8 characters</li>
+                        <li id="req-lower" class="invalid">One lowercase letter</li>
+                        <li id="req-upper" class="invalid">One uppercase letter</li>
+                        <li id="req-number" class="invalid">One number</li>
+                        <li id="req-special" class="invalid">One special character (@$!%*?&)</li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                <div class="auth-switch">
+                    Already have an account? <a href="#" id="switch-to-login">Log in</a>
+                </div>
+            </form>
+
+            <!-- OTP Verification Form -->
+            <form id="otp-form" class="auth-form hidden">
+                <div class="otp-message">
+                    We've sent a one-time password to your email.
+                </div>
+                <div class="form-group">
+                    <label for="otp-code">Verification Code</label>
+                    <input type="text" id="otp-code" required maxlength="6" pattern="\d{6}" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Verify & Log In</button>
+                <div class="auth-switch">
+                    Didn't receive it? <a href="#" id="resend-otp">Resend code</a>
+                </div>
+            </form>
+            
+            <!-- TOTP Verification Form (for Login) -->
+            <form id="totp-login-form" class="auth-form hidden">
+                <div class="otp-message">
+                    Enter the code from your authenticator app.
+                </div>
+                <div class="form-group">
+                    <label for="totp-login-code">Authenticator Code</label>
+                    <input type="text" id="totp-login-code" required maxlength="6" pattern="\d{6}" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Verify & Log In</button>
+            </form>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view hidden">
+            <header class="dashboard-header glass-panel">
+                <div class="user-info">
+                    <div class="avatar" id="user-avatar">U</div>
+                    <div class="user-details">
+                        <h2 id="user-name">User Name</h2>
+                        <span id="user-email">user@example.com</span>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn btn-outline">Log Out</button>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="card glass-panel security-card">
+                    <div class="card-header">
+                        <h3>Security Settings</h3>
+                        <span id="mfa-badge" class="badge">Checking...</span>
+                    </div>
+                    
+                    <div id="totp-setup-section" class="card-body">
+                        <p class="description">Enhance your account security by enabling Two-Factor Authentication (2FA) using an Authenticator app (like Google Authenticator or Authy).</p>
+                        
+                        <div id="totp-actions">
+                            <button id="enable-totp-btn" class="btn btn-primary">Enable Authenticator App</button>
+                        </div>
+
+                        <!-- QR Code Setup Area -->
+                        <div id="qr-setup-area" class="setup-area hidden">
+                            <ol class="setup-steps">
+                                <li>Download an authenticator app.</li>
+                                <li>Scan the QR code below.</li>
+                                <li>Enter the 6-digit code generated by the app.</li>
+                            </ol>
+                            
+                            <div class="qr-container">
+                                <img id="qr-code-img" src="" alt="TOTP QR Code">
+                            </div>
+                            
+                            <div class="form-group flex-group">
+                                <input type="text" id="totp-setup-code" maxlength="6" pattern="\d{6}" autocomplete="off">
+                                <button id="verify-totp-setup-btn" class="btn btn-success">Verify</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

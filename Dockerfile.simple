@@ -1,27 +1,14 @@
-# Build stage
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Simple Dockerfile for Codespaces
+FROM maven:3.9.5-eclipse-temurin-17-alpine AS build
 
 WORKDIR /app
 
-# Install dos2unix to handle line endings
-RUN apk add --no-cache dos2unix
-
-# Copy Maven wrapper and pom.xml
-COPY mvnw .
-COPY .mvn .mvn
+# Copy project files
 COPY pom.xml .
-
-# Fix line endings and make mvnw executable
-RUN dos2unix mvnw && chmod +x mvnw
-
-# Download dependencies
-RUN ./mvnw dependency:go-offline -B
-
-# Copy source code
-COPY src src
+COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Runtime stage
 FROM eclipse-temurin:17-jre-alpine

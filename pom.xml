@@ -15,6 +15,8 @@
     <description>Secure 2FA OTP Authentication System</description>
     <properties>
         <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <jjwt.version>0.12.3</jjwt.version>
         <springdoc.version>2.2.0</springdoc.version>
         <twilio.version>9.14.1</twilio.version>
@@ -146,7 +148,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
