@@ -1,46 +1,32 @@
 #!/bin/bash
 
-echo "🚀 Starting Secure 2FA Authentication System in Codespaces"
-echo "=========================================================="
-echo
-
-# Check if Java is available
-if command -v java &> /dev/null; then
-    echo "✅ Java found: $(java -version 2>&1 | head -n 1)"
-else
-    echo "❌ Java not found, installing..."
-    sudo apt-get update
-    sudo apt-get install -y openjdk-17-jdk
-fi
-
-# Check if Maven is available
-if command -v mvn &> /dev/null; then
-    echo "✅ Maven found: $(mvn -version | head -n 1)"
-else
-    echo "❌ Maven not found, using Maven wrapper..."
-fi
-
-echo
-echo "🔧 Starting application with embedded database..."
-echo "📱 This will run without Docker using H2 in-memory database"
-echo
-
-# Set environment for embedded mode
-export SPRING_PROFILES_ACTIVE=embedded
-export SPRING_DATASOURCE_URL=jdbc:h2:mem:testdb
-export SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.H2Dialect
-export APP_SMS_ENABLED=false
+echo "=========================================="
+echo "Starting Secure 2FA Authentication System"
+echo "=========================================="
+echo ""
 
 # Make mvnw executable
 chmod +x mvnw
 
-echo "🚀 Starting Spring Boot application..."
-echo "📍 Application will be available at:"
-echo "   🌐 Main API: https://$CODESPACE_NAME-8080.app.github.dev"
-echo "   📚 Swagger UI: https://$CODESPACE_NAME-8080.app.github.dev/swagger-ui.html"
-echo "   💚 Health: https://$CODESPACE_NAME-8080.app.github.dev/actuator/health"
-echo "   🗄️ H2 Console: https://$CODESPACE_NAME-8080.app.github.dev/h2-console"
-echo
+# Check if Java is installed
+if ! command -v java &> /dev/null; then
+    echo "Java not found. Installing OpenJDK 17..."
+    sudo apt-get update
+    sudo apt-get install -y openjdk-17-jdk
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    export PATH=$JAVA_HOME/bin:$PATH
+fi
 
-# Start the application
+echo "Java version:"
+java -version
+echo ""
+
+echo "Starting application with embedded H2 database..."
+echo "This will run without Docker, MySQL, or Redis"
+echo ""
+
+# Run the application with embedded profile
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=embedded
+
+echo ""
+echo "Application stopped."
