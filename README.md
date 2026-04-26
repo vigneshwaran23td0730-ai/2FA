@@ -48,21 +48,41 @@ A comprehensive, production-ready Spring Boot 3.x application providing secure t
 
 ## Quick Start
 
-### Prerequisites
-- Java 17 or higher
-- Docker and Docker Compose
-- Maven 3.6+ (or use included wrapper)
+### 🚀 Fastest Way: GitHub Codespaces (Recommended)
 
-### 1. Clone and Setup
+**No installation needed! Run in your browser:**
+
+1. Open this repository in GitHub Codespaces
+2. Run the quick start script:
 ```bash
-git clone <repository-url>
-cd secure-2fa-auth
-cp .env.example .env
-# Edit .env with your configuration
+chmod +x run-codespaces.sh
+./run-codespaces.sh
 ```
 
-### 2. Run with Docker Compose
+3. Access the API:
+   - **Health Check**: http://localhost:8080/api/health
+   - **Swagger UI**: http://localhost:8080/swagger-ui.html
+   - **API Docs**: http://localhost:8080/v3/api-docs
+
+4. For frontend integration:
+   - Go to **PORTS** tab in Codespaces
+   - Make port **8080** public
+   - Copy the forwarded URL and use it in your frontend
+
+📖 **See [CODESPACES_QUICKSTART.md](CODESPACES_QUICKSTART.md) for detailed instructions**
+
+---
+
+### 🐳 Docker Compose (Full Production Setup)
+
+**Prerequisites**: Docker and Docker Compose
+
 ```bash
+# Clone and setup
+git clone https://github.com/vigneshwaran23td0730-ai/2FA.git
+cd 2FA
+cp .env.example .env
+
 # Start all services (app, MySQL, Redis, MailHog)
 docker-compose up -d
 
@@ -70,11 +90,31 @@ docker-compose up -d
 docker-compose logs -f app
 ```
 
-### 3. Access the Application
+**Access Points:**
 - **API**: http://localhost:8080
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
 - **Health Check**: http://localhost:8080/actuator/health
 - **MailHog UI**: http://localhost:8025 (for testing emails)
+
+---
+
+### 💻 Local Development (Without Docker)
+
+**Prerequisites**: Java 17+, Maven 3.6+
+
+```bash
+# Clone repository
+git clone https://github.com/vigneshwaran23td0730-ai/2FA.git
+cd 2FA
+
+# Run with embedded H2 database (no MySQL/Redis needed)
+./mvnw spring-boot:run -Dspring-boot.run.profiles=embedded
+```
+
+**Access Points:**
+- **API**: http://localhost:8080
+- **H2 Console**: http://localhost:8080/h2-console
+- **Swagger UI**: http://localhost:8080/swagger-ui.html
 
 ## Development Setup
 
